@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Dudu❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: #111;
+      color: #fff;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    body.lights-on {
+      background: #fff8e7;
+      color: #222;
+    }
+    .card {
+      display: none;
+      padding: 40px 20px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+    .card.active {
+      display: block;
+      animation: fadeIn 1s;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    h1 {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.5rem;
+      color: #d6336c;
+    }
+    button {
+      background: #ff4d6d;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:disabled {
+      background: grey;
+      cursor: default;
+    }
+    #balloonContainer {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+    #flashingImages {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .flashing-photo {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      opacity: 0;
+      animation: flashFade 3s infinite;
+    }
+    @keyframes flashFade {
+      0% { opacity: 0; transform: scale(0.8); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+      100% { opacity: 0; transform: scale(0.8); }
+    }
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 60px;
+      border-radius: 50% 50% 50% 50%;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100vh); opacity:1;}
+      100% { transform: translateY(-200px); opacity:0;}
+    }
+    #cakePhoto {
+      width: 300px;
+      border-radius: 20px;
+      margin: 20px 0;
+    }
+    .slice {
+      width: 60px;
+      height: 60px;
+      background: pink;
+      display: inline-block;
+      margin: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #messageBox {
+      font-size: 20px;
+      margin-top: 20px;
+      min-height: 30px;
+      font-weight: bold;
+    }
+    .cake {
+      position: relative;
+      width: 200px;
+      height: 150px;
+      margin: 20px auto;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .cake:hover {
+      transform: scale(1.05);
+    }
+    .plate {
+      position: absolute;
+      bottom: -10px;
+      width: 220px;
+      height: 20px;
+      background: #ddd;
+      border-radius: 50%;
+      left: -10px;
+    }
+    .cake-layer {
+      position: absolute;
+      bottom: 0;
+      width: 200px;
+      height: 50px;
+      background: #d2691e;
+      border-radius: 20px 20px 0 0;
+    }
+    .cake-layer.middle {
+      bottom: 50px;
+      background: #b5651d;
+    }
+    .cake-layer.top {
+      bottom: 100px;
+      background: #8b4513;
+    }
+    .icing {
+      position: absolute;
+      bottom: 120px;
+      width: 200px;
+      height: 20px;
+      background: pink;
+      border-radius: 20px 20px 0 0;
+    }
+    .candle {
+      position: absolute;
+      bottom: 140px;
+      left: 95px;
+      width: 10px;
+      height: 30px;
+      background: #ff0;
+    }
+    .flame {
+      position: absolute;
+      bottom: 170px;
+      left: 98px;
+      width: 6px;
+      height: 10px;
+      background: orange;
+      border-radius: 50%;
+      animation: flicker 0.3s infinite alternate;
+    }
+    @keyframes flicker {
+      0% {transform: scaleY(1);}
+      100% {transform: scaleY(1.3);}
+    }
+  </style>
+</head>
+<body>
+  <div id="balloonContainer"></div>
+  <div id="flashingImages"></div>
+
+  <!-- 1. Apology -->
+  <div class="card active" id="card1">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Sorry for the delay ❤️</h1>
+    <p>I’m sorry for taking a little longer to make this… but everything I’ve made is just for you. Hope it brings a smile to your face 😘… I wanted this to be perfect for you…</p>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- 2. Prompt -->
+  <div class="card" id="card2">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Do you wanna see what I made? 😍</h1>
+    <button onclick="nextStep()">Yes</button>
+    <button onclick="alert('Aww… maybe later ❤️')">No</button>
+  </div>
+
+  <!-- 3. Lights -->
+  <div class="card" id="card3">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Turn the lights on to reveal the magic ✨</h1>
+    <button id="lightsButton" onclick="turnOnLights();nextStep()">Lights On</button>
+  </div>
+
+  <!-- 4. Music -->
+  <div class="card" id="card4">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Let's start the music 🎶</h1>
+    <button onclick="playMusic();nextStep()">Play Music</button>
+  </div>
+
+  <!-- 5. Balloons -->
+  <div class="card" id="card5">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Balloons for you ❤️</h1>
+    <button onclick="flyBalloons();nextStep()">Fly Balloons</button>
+  </div>
+
+  <!-- 6. Cake Cutting -->
+  <div class="card" id="card6">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Time to cut the cake 🎂</h1>
+    <img src="1.jpg" id="cakePhoto" alt="Our Photo">
+    <div class="cake" onclick="cutCake()">
+      <div class="plate"></div>
+      <div class="cake-layer"></div>
+      <div class="cake-layer middle"></div>
+      <div class="cake-layer top"></div>
+      <div class="icing"></div>
+      <div class="candle"></div>
+      <div class="flame"></div>
+    </div>
+    <div id="messageBox">Click the cake to reveal messages ✨</div>
+    <button onclick="nextStep()">Next</button>
+  </div>
+
+  <!-- 7. Video -->
+  <div class="card" id="card7">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 3.5em; font-weight: 700;">Here's my special video for you ❤️</h1>
+    <video controls width="320">
+      <source src="Video.mp4" type="video/mp4">
+    </video>
+    <p>Hope you love it ❤️</p>
+  </div>
+
+<script>
+let currentStep = 0;
+const cards = document.querySelectorAll('.card');
+let cakeMusic;
+let messages = ["Happy Birthday Dudu❤️", "You're my world 💕", "I Love you Bacha 🌟", "Love you forever 💖"];
+let currentMessage = 0;
+
+function nextStep() {
+  cards[currentStep].classList.remove('active');
+  currentStep++;
+  if (currentStep >= cards.length) {
+    currentStep = cards.length - 1;
+  }
+  cards[currentStep].classList.add('active');
+  
+  // Initialize cake cutting when we reach the cake card
+  if (currentStep === 5) {
+    initCakeCutting();
+  }
+  
+  // Stop background music when reaching video section
+  if (currentStep === 6) {
+    if (audio) {
+      audio.pause();
+    }
+    if (cakeMusic) {
+      cakeMusic.pause();
+    }
+    stopFlashingImages();
+  }
+}
+
+function turnOnLights() {
+  document.body.classList.add('lights-on');
+  document.getElementById('lightsButton').disabled = true;
+}
+
+let audio = new Audio('Music.mp3');
+let flashingInterval;
+let imageUrls = [
+  '2.jpg',
+  '3.jpg', 
+  '4.jpg',
+  '5.jpg',
+  '6.jpg',
+  '7.jpg',
+  '8.jpg',
+  '9.jpg',
+  '10.jpg'	
+];
+
+function playMusic() {
+  audio.play().catch(e => console.log('Audio play failed:', e));
+  startFlashingImages();
+}
+
+function startFlashingImages() {
+  const container = document.getElementById('flashingImages');
+  
+  flashingInterval = setInterval(() => {
+    // Create flashing image
+    const img = document.createElement('img');
+    img.className = 'flashing-photo';
+    img.src = imageUrls[Math.floor(Math.random() * imageUrls.length)];
+    
+    // Position in corners and floating areas
+    const positions = [
+      { top: '5%', left: '5%' },
+      { top: '5%', right: '5%' },
+      { bottom: '10%', left: '7.5%' },
+      { bottom: '10%', right: '7.5%' },
+      { top: '15%', left: '2.5%' },
+      { top: '15%', right: '2.5%' },
+      { top: '30%', left: '4%' },
+      { top: '30%', right: '4%' }
+    ];
+    
+    const pos = positions[Math.floor(Math.random() * positions.length)];
+    Object.assign(img.style, pos);
+    
+    // Random animation delay
+    img.style.animationDelay = Math.random() * 2 + 's';
+    
+    container.appendChild(img);
+    
+    // Remove image after animation
+    setTimeout(() => {
+      if (img.parentNode) {
+        img.parentNode.removeChild(img);
+      }
+    }, 6000);
+  }, 1000);
+}
+
+function stopFlashingImages() {
+  if (flashingInterval) {
+    clearInterval(flashingInterval);
+    flashingInterval = null;
+  }
+  document.getElementById('flashingImages').innerHTML = '';
+}
+
+function flyBalloons() {
+  const container = document.getElementById('balloonContainer');
+  container.innerHTML = '';
+  for (let i = 0; i < 50; i++) {
+    let b = document.createElement('div');
+    b.className = 'balloon';
+    b.style.left = Math.random() * 100 + 'vw';
+    b.style.backgroundColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+    b.style.animation = `floatUp ${5 + Math.random() * 5}s linear forwards`;
+    container.appendChild(b);
+  }
+}
+
+function initCakeCutting() {
+  // Initialize cake music
+  cakeMusic = new Audio('Slice.mp3');
+  cakeMusic.play().catch(e => console.log('Cake music play failed:', e));
+  
+  // Reset message counter
+  currentMessage = 0;
+}
+
+function cutCake() {
+  if (currentMessage < messages.length) {
+    document.getElementById('messageBox').textContent = messages[currentMessage];
+    currentMessage++;
+    
+    // Add a little celebration effect
+    const cake = document.querySelector('.cake');
+    cake.style.transform = 'scale(1.1)';
+    setTimeout(() => {
+      cake.style.transform = 'scale(1)';
+    }, 200);
+    
+    // If all messages are shown, trigger final celebration
+    if (currentMessage === messages.length) {
+      setTimeout(() => {
+        document.getElementById('messageBox').textContent = "🎉 Happy Birthday, Beautiful! 🎉";
+        flyBalloons();
+      }, 1000);
+    }
+  }
+}
+</script>
+</body>
+</html>
